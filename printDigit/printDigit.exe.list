@@ -1,0 +1,146 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+printDigit.exe -- emu8086 assembler version: 4.08  
+ 
+[ 3/06/2020  --  00:13:24 ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       data segment
+[   2]    0000: 24 24 24 24                           res db 4 dup('$')
+[   3]    0004: 3A                                    number db 58
+[   4]    0005: 0D 0A 24                              break db 13, 10, '$'
+[   5]        :                                       ends
+[   6]        :                                       stack segment
+[   7]    0010: 00 00 00 00 00 00 00 00 00 00 00 00   dw 128 dup(0)
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00                         
+[   8]        :                                       ends
+[   9]        :                                       code segment
+[  10]        :                                       printString MACRO string
+[  11]        :                                       mov ah, 09h
+[  12]        :                                       mov dx, offset string
+[  13]        :                                       int 21h
+[  14]        :                                       ENDM
+[  15]        :                                       
+[  16]        :                                       numAscii MACRO num
+[  17]        :                                       LOCAL extractDig, convertDig
+[  18]        :                                       mov ax, num
+[  19]        :                                       mov cx, 0
+[  20]        :                                       mov bx, 10
+[  21]        :                                       
+[  22]        :                                       extractDig:
+[  23]        :                                       mov dx, 0
+[  24]        :                                       div bx
+[  25]        :                                       push dx
+[  26]        :                                       inc cx
+[  27]        :                                       cmp ax, 9
+[  28]        :                                       ja extractDig
+[  29]        :                                       
+[  30]        :                                       inc cx
+[  31]        :                                       mov bx, 0
+[  32]        :                                       convertDig:
+[  33]        :                                       add al, 30h
+[  34]        :                                       mov res + bx, al
+[  35]        :                                       
+[  36]        :                                       pop ax
+[  37]        :                                       inc bx
+[  38]        :                                       LOOP convertDig
+[  39]        :                                       mov res + bx, '$'
+[  40]        :                                       ENDM
+[  41]        :                                       
+[  42]        :                                       exitApp MACRO
+[  43]        :                                       mov ax, 4c00h
+[  44]        :                                       int 21h
+[  45]        :                                       ENDM
+[  46]        :                                       
+[  47]    0110:                                       start:
+[  48]    0110: B8 00 00                              mov ax, data
+[  49]    0113: 8E D8                                 mov ds, ax
+[  50]    0115: 8E C0                                 mov es, ax
+[  51]        :                                       
+[  52]    0117: B8 B9 00 B9 00 00 BB 0A 00 BA 00 00   numAscii 185
+                F7 F3 52 41 3D 09 00 77 F4 41 BB 00 
+                00 04 30 88 07 58 43 E2 F8 C6 07 24 
+                                                    
+[  53]    013B: B4 09 BA 00 00 CD 21                  printString res
+[  54]        :                                       
+[  55]    0142: B4 09 BA 05 00 CD 21                  printString break
+[  56]        :                                       
+[  57]    0149: 33 C0                                 xor ax, ax
+[  58]    014B: A0 04 00                              mov al, number
+[  59]    014E: 8B C0 B9 00 00 BB 0A 00 BA 00 00 F7   numAscii ax
+                F3 52 41 3D 09 00 77 F4 41 BB 00 00 
+                04 30 88 07 58 43 E2 F8 C6 07 24    
+[  60]    0171: B4 09 BA 00 00 CD 21                  printString res
+[  61]        :                                       
+[  62]    0178: B8 00 4C CD 21                        exitApp
+[  63]        :                                       ends
+[  64]        :                                       end start
+[  65]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 7D      -   bytes on last page (l.byte)
+0003: 01      -   bytes on last page (h.byte)
+0004: 02      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 01      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: 48      -   check sum (l.byte)
+0013: 15      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 11      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 11      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================

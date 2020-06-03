@@ -1,0 +1,19 @@
+< THE SYMBOL TABLE >  printDigit.exe  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+DATA                     	00000     	-5        	SEGMENT   	(ITSELF)  
+RES                      	00000     	1         	VAR       	data      
+NUMBER                   	00004     	1         	VAR       	data      
+BREAK                    	00005     	1         	VAR       	data      
+STACK                    	00001     	-5        	SEGMENT   	(ITSELF)  
+CODE                     	00011     	-5        	SEGMENT   	(ITSELF)  
+START                    	00000     	-1        	LABEL     	code      
+EXTRACTDIG_LOC1TMP       	00010     	-1        	LABEL     	code      
+CONVERTDIG_LOC1TMP       	00020     	-1        	LABEL     	code      
+EXTRACTDIG_LOC2TMP       	00046     	-1        	LABEL     	code      
+CONVERTDIG_LOC2TMP       	00056     	-1        	LABEL     	code      
+===================================================================================================
+[ 3/06/2020  --  00:13:24 ] 
+< END >
+ 
